@@ -50,10 +50,12 @@ def login_user(username: str, password: str, response: Response):
 
 @app.get('/users')
 def get_user(user : UserModel):
+    user_dict = user.dict()
+    user_data.append(user.dict)
     return {"data": user_data}
     
 # Individual User Page Creation
-@app.put('/user')
+@app.post('/user')
 def create_user(user: UserModel):
     return {"data": user_data}
 
