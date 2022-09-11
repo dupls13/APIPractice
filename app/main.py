@@ -17,14 +17,14 @@ app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
 
 
-user_data= [{"username": "shawdt" , "password": "1234"}]
+user_data= [{"username": "shawdt" , "pw": "1234"}]
 
 post_data=[{"username": "shawdt", "title": "Test post 1", "post_number": 1, "content": "This is my first post"}]
 
 # User information 
 class User(BaseModel): 
     username = str 
-    password = str
+    pw = str
     id = int
     
 # Post information 
@@ -54,7 +54,7 @@ while True:
 
 # Functions 
 
-def find_username(username, password): 
+def find_username(username, paswword): 
     for username in user_data: 
         if username['username'] == username:
             for password in user_data: 
@@ -78,9 +78,14 @@ def get_user(db: Session = Depends(get_db)):
 # Create user 
 @app.post('/users', status_code=status.HTTP_201_CREATED)
 def create_user(user:User, db: Session = Depends(get_db)):
-    new_user = models.User(**user.dict())
+    
+    cursor.execute("""INSERT INTO users (username, pw) VALUES (%s, %s) RETURNING * """,
+                   (user.username, user.pw))
+    new_user = cursor.fetchone()
+    conn.commit()
+    #new_user = models.User(**user.dict())
 
-   # db.add(new_user)
+    #db.add(new_user)
     #db.commit()
     #db.refresh(new_user)
     return {"data": new_user}
@@ -105,4 +110,3 @@ def delete_user(user_id: int):
 
 
 #           Post
-    
