@@ -23,17 +23,18 @@ post_data=[{"username": "shawdt", "title": "Test post 1", "post_number": 1, "con
 
 # User information 
 class User(BaseModel): 
-    username = str 
-    pw = str
-    id = int
-    
+    username : str 
+    pw : str
+    id : int
+ 
+""""  
 # Post information 
 class Post(BaseModel):
-    username = User.username
-    title = str
-    post_number = int 
+    username : User.username
+    title : str
+    post_number : int 
     content: str 
-    post_id: int 
+    post_id: int """
     
 
 # Connect to database 
@@ -79,15 +80,11 @@ def get_user(db: Session = Depends(get_db)):
 @app.post('/users', status_code=status.HTTP_201_CREATED)
 def create_user(user:User, db: Session = Depends(get_db)):
     
-    cursor.execute("""INSERT INTO users (username, pw) VALUES (%s, %s) RETURNING * """,
-                   (user.username, user.pw))
-    new_user = cursor.fetchone()
-    conn.commit()
-    #new_user = models.User(**user.dict())
+    new_user = models.User(**user.dict())
 
-    #db.add(new_user)
-    #db.commit()
-    #db.refresh(new_user)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
     return {"data": new_user}
 
 
