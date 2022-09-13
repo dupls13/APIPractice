@@ -19,13 +19,12 @@ models.Base.metadata.create_all(bind=engine)
 
 user_data= [{"username": "shawdt" , "pw": "1234"}]
 
-post_data=[{"username": "shawdt", "title": "Test post 1", "post_number": 1, "content": "This is my first post"}]
+#post_data=[{"username": "shawdt", "title": "Test post 1", "post_number": 1, "content": "This is my first post"}]
 
 # User information 
 class User(BaseModel): 
-    username : str 
-    pw : str
-    id : int
+    username: str 
+    password: str
  
 """"  
 # Post information 
@@ -54,13 +53,13 @@ while True:
 
 
 # Functions 
-
+"""
 def find_username(username, paswword): 
     for username in user_data: 
         if username['username'] == username:
             for password in user_data: 
                 if password['password'] == password:
-                    return User 
+                    return User """
         
 
 @app.get('/')
