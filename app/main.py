@@ -8,7 +8,7 @@ from psycopg2.extras import RealDictCursor
 from sqlalchemy.orm import Session 
 from . import models 
 from .database import engine, get_db
-from .routers import users
+from .routers import users, posts
 
 
 
@@ -33,6 +33,7 @@ while True:
 
 # Connnect routers 
 app.include_router(users.router)
+app.include_router(posts.router)
 
 @app.get('/')
 def root():
